@@ -21,21 +21,23 @@ for i in table.find_all('tr'):
             ListOfCompanies.append(text.split(" (")[0])
             print(text.split(" (")[0])
             
- print(ListOfCompanies)
+#print(ListOfCompanies)
  
- def google_scrape(url):
+def google_scrape(url):
     #thepage = urllib3.urlopen(url)
     soup = bs(requests.get(url).content, "html.parser")
     return soup.title.text
 
 csvTable = []
+header = ["Company", "Source I", "Source II", "Souce III", "Souce IV", "Source V"]
+csvTable.append(header)
 
 for com in ListOfCompanies:
     i = 1
     lastUrl = "  "
     print ("Company: "+com)
     row = []
-    row.append(com)
+    row.append('"'+com+'"')
     csvTable.append(row)
     for url in search(com, tld = 'com', num=5, stop=15):
         if (url.startswith(lastUrl) or i > 5):
@@ -48,4 +50,4 @@ for com in ListOfCompanies:
         print (" ")
         i += 1
         
-np.savetxt("GiveMeIPO.csv", csvTable, delimiter=", ", fmt='% s')
+np.savetxt("GiveMeIPO.csv", csvTable, delimiter=", ", fmt ='% s')
